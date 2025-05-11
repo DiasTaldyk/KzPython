@@ -1,0 +1,203 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Python Задачи</title>
+  <script src="pyodide.js"></script>
+  <style>
+    body { font-family: sans-serif; max-width: 800px; margin: auto; padding: 20px; }
+    textarea { width: 100%; height: 140px; font-family: monospace; }
+    .success { background: #d4edda; padding: 10px; margin-top: 10px; }
+    .error { background: #f8d7da; padding: 10px; margin-top: 10px; }
+    button { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>Python Тренажёр</h1>
+
+  <label for="difficulty-select">Уровень сложности:</label><br>
+  <select id="difficulty-select">
+    <option value="easy">Лёгкий</option>
+    <option value="medium">Средний</option>
+    <option value="hard">Сложный</option>
+  </select><br><br>
+
+  <label for="task-select">Выберите задачу:</label><br>
+  <select id="task-select"></select>
+
+  <h3 id="task-description">Описание задачи</h3>
+
+  <textarea id="code" placeholder="Напиши здесь свой код..."></textarea><br>
+  <button onclick="runCode()">Проверить</button>
+  <button onclick="nextTask()">Следующая задача</button>
+  <button onclick="resetScore()">Сбросить счёт</button>
+
+  <div id="output"></div>
+  <div id="score">Баллы: 0</div>
+
+  <script>
+    let allTasks = {
+      "medium": [/*...*/],  // Можешь добавить свои задачи
+      "hard": [/*...*/]
+    };
+
+    let tasks = [];
+    let pyodide;
+    let currentTaskIndex = 0;
+    let score = parseInt(localStorage.getItem("score")) || 0;
+
+    document.getElementById("score").textContent = "Баллы: " + score;
+
+    async function loadAll() {
+      pyodide = await loadPyodide();
+
+      const savedLevel = localStorage.getItem("level") || "easy";
+      const savedIndex = parseInt(localStorage.getItem("taskIndex")) || 0;
+
+      document.getElementById("difficulty-select").value = savedLevel;
+      await loadTasks(savedLevel);
+
+      currentTaskIndex = Math.min(savedIndex, tasks.length - 1);
+      document.getElementById("task-select").selectedIndex = currentTaskIndex;
+      updateTaskDisplay();
+
+      document.getElementById("difficulty-select").onchange = async () => {
+        const level = document.getElementById("difficulty-select").value;
+        localStorage.setItem("level", level);
+        await loadTasks(level);
+        currentTaskIndex = 0;
+        fillTaskList();
+        updateTaskDisplay();
+        localStorage.setItem("taskIndex", currentTaskIndex);
+      };
+
+      document.getElementById("task-select").onchange = () => {
+        currentTaskIndex = parseInt(document.getElementById("task-select").value);
+        updateTaskDisplay();
+        localStorage.setItem("taskIndex", currentTaskIndex);
+      };
+    }
+
+    async function loadTasks(level) {
+      if (level === "easy") {
+        const response = await fetch("tasks.json");
+        tasks = await response.json();
+      } else {
+        tasks = allTasks[level] || [];
+      }
+      fillTaskList();
+    }
+
+    function fillTaskList() {
+      const select = document.getElementById("task-select");
+      select.innerHTML = "";
+      tasks.forEach((_, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.textContent =
+          document.getElementById("difficulty-select").value === "easy"
+            ? `Тапсырма №${index + 1}`
+            : tasks[index].title || `Задача ${index + 1}`;
+        select.appendChild(option);
+      });
+    }
+
+    function updateTaskDisplay() {
+      const task = tasks[currentTaskIndex];
+      document.getElementById("task-description").textContent = task.description;
+      document.getElementById("output").innerHTML = "";
+      const key = getCodeKey();
+      document.getElementById("code").value = localStorage.getItem(key) || "";
+    }
+
+    function checkForbidden(code, banned) {
+      return banned.find(word => code.includes(word));
+    }
+
+    function checkRequired(code, required) {
+      return required.find(word => !code.includes(word));
+    }
+
+    async function runCode() {
+      const code = document.getElementById("code").value;
+      const task = tasks[currentTaskIndex];
+      const solvedKey = getSolvedKey();
+
+      localStorage.setItem(getCodeKey(), code);
+
+      const banned = checkForbidden(code, task.banned);
+      if (banned) {
+        document.getElementById("output").innerHTML = `<div class="error">Нельзя использовать: ${banned}</div>`;
+        return;
+      }
+
+      const missing = checkRequired(code, task.required);
+      if (missing) {
+        document.getElementById("output").innerHTML = `<div class="error">Ты не использовал: ${missing}</div>`;
+        return;
+      }
+
+      try {
+        const output = (await pyodide.runPythonAsync(`
+import io, sys
+sys.stdout = io.StringIO()
+${code}
+sys.stdout.getvalue()
+        `)).trim();
+
+        if (output === task.expected) {
+          if (!localStorage.getItem(solvedKey)) {
+            score += 1;
+            localStorage.setItem("score", score);
+            localStorage.setItem(solvedKey, "true");
+          }
+          document.getElementById("output").innerHTML = `<div class="success">✅ Верно! Результат: ${output}</div>`;
+        } else {
+          document.getElementById("output").innerHTML = `<div class="error">❌ Неверно. Получено: ${output}</div>`;
+        }
+
+      } catch (err) {
+        document.getElementById("output").innerHTML = `<div class="error">Ошибка: ${err}</div>`;
+      }
+
+      document.getElementById("score").textContent = "Баллы: " + score;
+    }
+
+    function getCodeKey() {
+      const level = document.getElementById("difficulty-select").value;
+      return `code_${level}_${currentTaskIndex}`;
+    }
+
+    function getSolvedKey() {
+      const level = document.getElementById("difficulty-select").value;
+      return `solved_${level}_${currentTaskIndex}`;
+    }
+
+    function nextTask() {
+      currentTaskIndex = (currentTaskIndex + 1) % tasks.length;
+      document.getElementById("task-select").selectedIndex = currentTaskIndex;
+      updateTaskDisplay();
+      localStorage.setItem("taskIndex", currentTaskIndex);
+    }
+
+    function resetScore() {
+      score = 0;
+      localStorage.setItem("score", "0");
+      for (const key in localStorage) {
+        if (key.startsWith("solved_")) {
+          localStorage.removeItem(key);
+        }
+      }
+      document.getElementById("score").textContent = "Баллы: " + score;
+      document.getElementById("output").innerHTML = `<div class="success">Счёт и прогресс сброшены!</div>`;
+    }
+
+    document.getElementById("code").addEventListener("paste", (e) => {
+      e.preventDefault();
+      alert("Копипаст не пройдёт! Пиши сам 💪");
+    });
+
+    loadAll();
+  </script>
+</body>
+</html>
