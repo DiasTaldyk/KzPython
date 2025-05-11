@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
@@ -9,6 +9,7 @@
     textarea { width: 100%; height: 140px; font-family: monospace; }
     .success { background: #d4edda; padding: 10px; margin-top: 10px; }
     .error { background: #f8d7da; padding: 10px; margin-top: 10px; }
+    .loading { background: #fff3cd; padding: 10px; margin-top: 10px; }
     button { margin: 5px 0; }
   </style>
 </head>
@@ -20,6 +21,8 @@
     <option value="easy">Лёгкий</option>
     <option value="medium">Средний</option>
     <option value="hard">Сложный</option>
+    <!-- Добавь здесь свои уровни -->
+    <!-- <option value="expert">Эксперт</option> -->
   </select><br><br>
 
   <label for="task-select">Выберите задачу:</label><br>
@@ -36,11 +39,6 @@
   <div id="score">Баллы: 0</div>
 
   <script>
-    let allTasks = {
-      "medium": [/*...*/],  // Можешь добавить свои задачи
-      "hard": [/*...*/]
-    };
-
     let tasks = [];
     let pyodide;
     let currentTaskIndex = 0;
@@ -64,7 +62,12 @@
       document.getElementById("difficulty-select").onchange = async () => {
         const level = document.getElementById("difficulty-select").value;
         localStorage.setItem("level", level);
+
+        // Показать сообщение о загрузке
+        document.getElementById("output").innerHTML = '<div class="loading">Загрузка задач...</div>';
+
         await loadTasks(level);
+
         currentTaskIndex = 0;
         fillTaskList();
         updateTaskDisplay();
@@ -78,12 +81,15 @@
       };
     }
 
+    // Загрузка JSON-файла по имени уровня сложности
     async function loadTasks(level) {
-      if (level === "easy") {
-        const response = await fetch("tasks.json");
+      try {
+        const response = await fetch(`tasks_${level}.json`);
         tasks = await response.json();
-      } else {
-        tasks = allTasks[level] || [];
+      } catch (err) {
+        tasks = [];
+        console.error(`Ошибка загрузки tasks_${level}.json:`, err);
+        document.getElementById("output").innerHTML = '<div class="error">Не удалось загрузить задачи.</div>';
       }
       fillTaskList();
     }
@@ -94,28 +100,24 @@
       tasks.forEach((_, index) => {
         const option = document.createElement("option");
         option.value = index;
-        option.textContent =
-          document.getElementById("difficulty-select").value === "easy"
-            ? `Тапсырма №${index + 1}`
-            : tasks[index].title || `Задача ${index + 1}`;
+        option.textContent = `Задача №${index + 1}`;
         select.appendChild(option);
       });
     }
 
     function updateTaskDisplay() {
       const task = tasks[currentTaskIndex];
-      document.getElementById("task-description").textContent = task.description;
+      document.getElementById("task-description").textContent = task?.description || "Нет описания";
       document.getElementById("output").innerHTML = "";
-      const key = getCodeKey();
-      document.getElementById("code").value = localStorage.getItem(key) || "";
+      document.getElementById("code").value = localStorage.getItem(getCodeKey()) || "";
     }
 
     function checkForbidden(code, banned) {
-      return banned.find(word => code.includes(word));
+      return banned?.find(word => code.includes(word));
     }
 
     function checkRequired(code, required) {
-      return required.find(word => !code.includes(word));
+      return required?.find(word => !code.includes(word));
     }
 
     async function runCode() {
