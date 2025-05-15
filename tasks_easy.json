@@ -35,7 +35,7 @@
     "description": "Мына кодта синтаксистік қате бар: print('Сан:' + 5)",
     "input_required": false,
     "code_template": "# дұрысы: print('Сан:' + str(5))",
-    "expected_output": "Сан:5",
+    "expected_output": "Сан: 5",
     "required": [
       "str"
     ],
