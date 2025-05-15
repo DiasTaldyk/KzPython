@@ -35,7 +35,7 @@
     "description": "Мына кодта синтаксистік қате бар: print('Сан:' + 5)",
     "input_required": false,
     "code_template": "# дұрысы: print('Сан:' + str(5))",
-    "expected_output": "Сан: 5",
+    "expected": "Сан: 5",
     "required": [
       "str"
     ],
@@ -117,7 +117,7 @@
     "description": "3 және 8 сандарын қосып, нәтижесін шығарыңыз.",
     "input_required": false,
     "code_template": "# print(3 + 8)",
-    "expected_output": "11",
+    "expected": "11",
     "required": [
       "+"
     ],
@@ -128,7 +128,7 @@
     "description": "Екі жолды біріктіріп шығарыңыз: 'Сәлем, ' және 'Әлем!'",
     "input_required": false,
     "code_template": "# print('Сәлем, ' + 'Әлем!')",
-    "expected_output": "Сәлем, Әлем!",
+    "expected": "Сәлем, Әлем!",
     "required": [
       "+"
     ],
@@ -139,7 +139,7 @@
     "description": "a=4, b=6 болса, олардың қосындысын шығарыңыз.",
     "input_required": false,
     "code_template": "# a = 4\n# b = 6\n# print(a + b)",
-    "expected_output": "10",
+    "expected": "10",
     "required": [
       "+"
     ],
@@ -150,7 +150,7 @@
     "description": "'Астана' мен ' қаласы' деген сөздерді біріктіріп шығарыңыз.",
     "input_required": false,
     "code_template": "# print('Астана' + ' қаласы')",
-    "expected_output": "Астана қаласы",
+    "expected": "Астана қаласы",
     "required": [
       "+"
     ],
@@ -239,7 +239,7 @@
     "description": "'Python' сөзін 3 рет қатарынан шығарыңыз.",
     "input_required": false,
     "code_template": "# Мысалы: print('Python' * 3)",
-    "expected_output": "PythonPythonPython",
+    "expected": "PythonPythonPython",
     "required": [
       "*"
     ],
@@ -250,7 +250,7 @@
     "description": "'Код' деген сөзді 4 рет қатарынан шығарыңыз.",
     "input_required": false,
     "code_template": "# print('Код' * 4)",
-    "expected_output": "КодКодКодКод",
+    "expected": "КодКодКодКод",
     "required": [
       "*"
     ],
@@ -261,7 +261,7 @@
     "description": "2 тонна — неше килограмм?",
     "input_required": false,
     "code_template": "# print(2 * 1000)",
-    "expected_output": "2000",
+    "expected": "2000",
     "required": [
       "*"
     ],
@@ -315,7 +315,7 @@
     "description": "Қала атауын және ел атауын біріктіріп, 'Алматы - Қазақстан' сияқты бір жолмен шығар.",
     "input_required": false,
     "code_template": "city = \"Алматы\"\ncountry = \"Қазақстан\"\n# Кодты осы жерден баста",
-    "expected_output": "Алматы - Қазақстан",
+    "expected": "Алматы - Қазақстан",
     "required": [
       "+"
     ],
@@ -329,7 +329,7 @@
     "description": "Жолда қанша нүкте ('.') бар екенін есептеңіз.",
     "input_required": false,
     "code_template": "# count() әдісін қолданыңыз",
-    "expected_output": "3",
+    "expected": "3",
     "required": [
       "count"
     ],
@@ -340,7 +340,7 @@
     "description": "city = 'Almaty'. Оны 'Astana' деп ауыстырыңыз.",
     "input_required": false,
     "code_template": "# replace() әдісін қолдан",
-    "expected_output": "Astana",
+    "expected": "Astana",
     "required": [
       "replace"
     ],
@@ -402,7 +402,7 @@
     "description": "Төмендегі кодта қатені тауып, оны жөнде. Код \"Сәлем әлем!\" дегенді шығару керек.",
     "input_required": false,
     "code_template": "print(\"Сәлем әлем!)",
-    "expected_output": "Сәлем әлем!",
+    "expected": "Сәлем әлем!",
     "required": [
       "print"
     ],
@@ -413,7 +413,7 @@
     "description": "Келесі код қателі, оны түзетіп, 'Қош келдің!' шығарыңыз.",
     "input_required": false,
     "code_template": "print(Қош келдің!)",
-    "expected_output": "Қош келдің!",
+    "expected": "Қош келдің!",
     "required": [
       "print"
     ],
@@ -424,7 +424,7 @@
     "description": "'Сәлем, әлем!' деген жазуды шығарыңыз.",
     "input_required": false,
     "code_template": "# print() функциясын қолдан",
-    "expected_output": "Сәлем, әлем!",
+    "expected": "Сәлем, әлем!",
     "required": [
       "print"
     ],
@@ -435,7 +435,7 @@
     "description": "Келесі жолда қате бар. Түзетіңіз: print('Сәлем)",
     "input_required": false,
     "code_template": "# дұрысы: print('Сәлем')",
-    "expected_output": "Сәлем",
+    "expected": "Сәлем",
     "required": [
       "print"
     ],
@@ -446,7 +446,7 @@
     "description": "'Қазақстан' сөзінің ұзындығын анықтаңыз.",
     "input_required": false,
     "code_template": "# print(len('Қазақстан'))",
-    "expected_output": "9",
+    "expected": "9",
     "required": [
       "len"
     ],
@@ -500,7 +500,7 @@
     "description": "Пайдаланушыдан екі сан сұрап, олардың қосындысын шығар.",
     "input_required": true,
     "code_template": "# Мысалы: a = int(input())\n# b = int(input())\n# print(a + b)",
-    "expected_output": "13",
+    "expected": "13",
     "required": [
       "+"
     ],
@@ -511,7 +511,7 @@
     "description": "Пайдаланушы екі сан енгізеді, олардың көбейтіндісін шығарыңыз.",
     "input_required": true,
     "code_template": "# Мысалы: x = int(input())\n# y = int(input())\n# print(x * y)",
-    "expected_output": "40",
+    "expected": "40",
     "required": [
       "*"
     ],
@@ -522,7 +522,7 @@
     "description": "Пайдаланушы бір сан енгізеді, оның квадратын шығарыңыз.",
     "input_required": true,
     "code_template": "# x = int(input())\n# print(x ** 2)",
-    "expected_output": "49",
+    "expected": "49",
     "required": [
       "**"
     ],
@@ -582,7 +582,7 @@
     "description": "7200 секунд — неше сағат екенін есептеңіз.",
     "input_required": false,
     "code_template": "# print(7200 // 3600)",
-    "expected_output": "2",
+    "expected": "2",
     "required": [
       "//"
     ],
@@ -593,7 +593,7 @@
     "description": "150 см — неше метр екенін табыңыз.",
     "input_required": false,
     "code_template": "# print(150 / 100)",
-    "expected_output": "1.5",
+    "expected": "1.5",
     "required": [
       "/"
     ],
@@ -650,7 +650,7 @@
     "description": "5 > 3 екенін тексеріп, нәтижені шығарыңыз.",
     "input_required": false,
     "code_template": "# print(5 > 3)",
-    "expected_output": "True",
+    "expected": "True",
     "required": [
       ">"
     ],
@@ -661,7 +661,7 @@
     "description": "5 <= 5 екенін тексеріп, нәтижесін шығарыңыз.",
     "input_required": false,
     "code_template": "# print(5 <= 5)",
-    "expected_output": "True",
+    "expected": "True",
     "required": [
       "<="
     ],
@@ -672,7 +672,7 @@
     "description": "\"Python\" сөзін 3 рет қатарынан шығарыңыз.",
     "input_required": false,
     "code_template": "# Мұнда кодыңызды жазыңыз",
-    "expected_output": "PythonPythonPython",
+    "expected": "PythonPythonPython",
     "required": [
       "*"
     ],
@@ -683,7 +683,7 @@
     "description": "Пайдаланушыдан секунд санын алып, оны минутқа айналдыр.",
     "input_required": true,
     "code_template": "# Мысалы: 120 енгізсе → 2.0",
-    "expected_output": "2.0",
+    "expected": "2.0",
     "required": [
       "/"
     ],
@@ -694,7 +694,7 @@
     "description": "Пайдаланушыдан сағат санын алып, оны секундқа айналдыр.",
     "input_required": true,
     "code_template": "# Мысалы: 1 енгізсе → 3600",
-    "expected_output": "3600",
+    "expected": "3600",
     "required": [
       "*"
     ],
@@ -705,7 +705,7 @@
     "description": "Пайдаланушыдан метр санын алып, оны сантиметрге айналдыр.",
     "input_required": true,
     "code_template": "# 1 метр = 100 см",
-    "expected_output": "300",
+    "expected": "300",
     "required": [
       "*"
     ],
@@ -716,7 +716,7 @@
     "description": "Пайдаланушыдан килограмм алып, оны грамға айналдыр.",
     "input_required": true,
     "code_template": "# 1 кг = 1000 г",
-    "expected_output": "5000",
+    "expected": "5000",
     "required": [
       "*"
     ],
@@ -727,7 +727,7 @@
     "description": "Пайдаланушыдан тонна алып, оны килограммға айналдыр.",
     "input_required": true,
     "code_template": "# 1 тонна = 1000 кг",
-    "expected_output": "3000",
+    "expected": "3000",
     "required": [
       "*"
     ],
@@ -738,7 +738,7 @@
     "description": "Аты мен тегі бөлек айнымалыларда берілген. Оларды толық ат ретінде біріктір.",
     "input_required": false,
     "code_template": "first = \"Алия\"\nlast = \"Нұрбек\"\n# Мұнда толық атты шығарыңыз",
-    "expected_output": "Алия Нұрбек",
+    "expected": "Алия Нұрбек",
     "required": [
       "+"
     ],
@@ -749,7 +749,7 @@
     "description": "10 санын 3-ке бөлгендегі бүтін бөліндісін шығарыңыз.",
     "input_required": false,
     "code_template": "# // операторын қолдан",
-    "expected_output": "3",
+    "expected": "3",
     "required": [
       "//"
     ],
@@ -760,7 +760,7 @@
     "description": "15 санын 4-ке бөлгендегі қалдықты шығарыңыз.",
     "input_required": false,
     "code_template": "# % операторын қолдан",
-    "expected_output": "3",
+    "expected": "3",
     "required": [
       "%"
     ],
@@ -771,7 +771,7 @@
     "description": "a = 5, b = 7 болғанда, мәндерін ауыстырыңыз.",
     "input_required": false,
     "code_template": "# a мен b мәндерін ауыстырыңыз",
-    "expected_output": "a=7 b=5",
+    "expected": "a=7 b=5",
     "required": [
       "a",
       "b"
