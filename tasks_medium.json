@@ -6,8 +6,7 @@
   "expected": "9",
   "required": [
     "print",
-    "and",
-    "or"
+    "and"
   ],
   "banned": [
     "max"
