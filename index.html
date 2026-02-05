@@ -475,9 +475,8 @@
   </div>
 
   <script>
-    // Рұқсат берілген Telegram ID-лер тізімі
-    const ALLOWED_TELEGRAM_IDS = [      123456789,       987654321 , 1769921919   ];
-    //const ALLOWED_TELEGRAM_IDS = [];
+    // Telegram Web App инициализациясы
+    const tg = window.Telegram?.WebApp;
 
     let tasks = [];
     let pyodide;
@@ -485,15 +484,12 @@
     let score = parseInt(localStorage.getItem("score")) || 0;
     let telegramUser = null;
 
-    // Telegram Web App инициализациясы
-    const tg = window.Telegram?.WebApp;
-
-    // Telegram кіру функциясы
+    // Telegram кіру функциясы - БАРЛЫҚ АДАМҒА РҰҚСАТ
     function initTelegramAuth() {
       if (!tg) {
         console.log('Telegram Web App API жоқ, браузер режимінде жұмыс істеу...');
         showAppContent({ 
-          id: 999999999, 
+          id: Date.now(), 
           first_name: 'Қолданушы',
           username: 'demo_user'
         });
@@ -503,12 +499,34 @@
       tg.ready();
       tg.expand();
 
-      const user = tg.initDataUnsafe?.user;
+      // Telegram қолданушы ақпаратын алу
+      let user;
       
-      if (user && ALLOWED_TELEGRAM_IDS.includes(user.id)) {
+      // Әр түрлі әдістермен user ақпаратын алуға тырысамыз
+      if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        user = tg.initDataUnsafe.user;
+      } else if (tg.initData && tg.initData.user) {
+        user = tg.initData.user;
+      } else {
+        // Ешқандай user ақпараты болмаса
+        user = {
+          id: Date.now(),
+          first_name: 'Telegram',
+          last_name: 'Қолданушы',
+          username: 'telegram_user',
+          photo_url: null
+        };
+      }
+      
+      console.log('Telegram user ақпараты:', user);
+      
+      // БАРЛЫҚ АДАМҒА РҰҚСАТ БЕРУ
+      if (user) {
         telegramUser = user;
         showAppContent(user);
       } else {
+        // Егер user undefined болса
+        console.error('Telegram user ақпараты жоқ');
         showLoginError();
       }
     }
@@ -517,9 +535,9 @@
     function showLoginError() {
       document.getElementById('login-error').style.display = 'block';
       if (tg) {
-        tg.showAlert('Сізге кіру рұқсаты жоқ. Администраторға хабарласыңыз.');
+        tg.showAlert('Telegram арқылы кіру сәтсіз аяқталды. Қайта кіріп көріңіз.');
       } else {
-        alert('Кіру рұқсаты жоқ. Тек рұқсат берілген қолданушылар кіре алады.');
+        alert('Telegram арқылы кіру сәтсіз аяқталды.');
       }
     }
 
@@ -529,12 +547,14 @@
       document.getElementById('app-container').style.display = 'block';
       
       // Қолданушы ақпаратын көрсету
+      const avatarUrl = user.photo_url || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.first_name)}&background=667eea&color=fff`;
+      
       document.getElementById('user-info').innerHTML = `
-        <img src="${user.photo_url || 'https://via.placeholder.com/50'}" 
+        <img src="${avatarUrl}" 
              alt="Аватар" class="user-avatar">
         <div class="user-details">
           <h3>${user.first_name} ${user.last_name || ''}</h3>
-          <p>@${user.username || 'жоқ'}</p>
+          <p>${user.username ? '@' + user.username : 'логин жоқ'}</p>
           <p style="font-size: 0.8rem; color: #667eea;">ID: ${user.id}</p>
         </div>
       `;
@@ -553,34 +573,31 @@
       } else {
         // Браузер режимінде - демо кіру
         const testUser = {
-          id: 999999999,
-          first_name: 'Сынақ',
+          id: Date.now(),
+          first_name: 'Қонақ',
           last_name: 'Қолданушы',
-          username: 'test_user_kz'
+          username: 'guest_user_kz'
         };
-        
-        const enteredId = prompt('Тест режимі: Telegram ID енгізіңіз:');
-        if (ALLOWED_TELEGRAM_IDS.includes(parseInt(enteredId)) || enteredId === 'demo') {
-          showAppContent(testUser);
-        } else {
-          alert('Кіру рұқсаты жоқ. Тест үшін "demo" енгізіңіз.');
-        }
+        showAppContent(testUser);
       }
     });
 
-    // Браузер режимінде автоматты түрде кіруді тексеру
-    if (!tg) {
+    // Telegram Web App болса, автоматты түрде кіруді бастау
+    if (tg) {
       setTimeout(() => {
-        if (!telegramUser) {
-          document.getElementById('login-error').style.display = 'block';
-          document.getElementById('login-error').textContent = 
-            'Telegram Web App емес. Тест режимі үшін "Telegram арқылы кіру" батырмасын басыңыз.';
-        }
-      }, 1000);
+        initTelegramAuth();
+      }, 100);
     }
 
     async function loadAll() {
-      pyodide = await loadPyodide();
+      try {
+        pyodide = await loadPyodide();
+      } catch (error) {
+        console.error('Pyodide жүктеу қатесі:', error);
+        document.getElementById('output').innerHTML = 
+          '<div class="error">Python интерпретаторы жүктеу қатесі</div>';
+        return;
+      }
 
       const savedLevel = localStorage.getItem("level") || "easy";
       const savedIndex = parseInt(localStorage.getItem("taskIndex")) || 0;
@@ -588,8 +605,8 @@
       document.getElementById("difficulty-select").value = savedLevel;
       await loadTasks(savedLevel);
 
-      currentTaskIndex = Math.min(savedIndex, tasks.length - 1);
       if (tasks.length > 0) {
+        currentTaskIndex = Math.min(savedIndex, tasks.length - 1);
         document.getElementById("task-select").selectedIndex = currentTaskIndex;
         updateTaskDisplay();
       }
@@ -617,12 +634,15 @@
     async function loadTasks(level) {
       try {
         const response = await fetch(`tasks_${level}.json`);
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}`);
+        }
         tasks = await response.json();
       } catch (err) {
         tasks = [];
         console.error(`tasks_${level}.json жүктеу қатесі:`, err);
         document.getElementById("output").innerHTML = 
-          '<div class="error">Тапсырмаларды жүктеу мүмкін болмады.</div>';
+          '<div class="error">Тапсырмаларды жүктеу мүмкін болмады. tasks_' + level + '.json файлын тексеріңіз.</div>';
       }
       fillTaskList();
     }
@@ -657,8 +677,14 @@
     async function runCode() {
       const code = document.getElementById("code").value;
       const task = tasks[currentTaskIndex];
-      const solvedKey = getSolvedKey();
+      
+      if (!task) {
+        document.getElementById("output").innerHTML = 
+          '<div class="error">Тапсырма табылмады. Тапсырмаларды жүктеу қатесі болуы мүмкін.</div>';
+        return;
+      }
 
+      const solvedKey = getSolvedKey();
       localStorage.setItem(getCodeKey(), code);
 
       const banned = checkForbidden(code, task.banned);
@@ -722,7 +748,11 @@ sys.stdout.getvalue()
     }
 
     function nextTask() {
-      if (tasks.length === 0) return;
+      if (tasks.length === 0) {
+        document.getElementById("output").innerHTML = 
+          '<div class="error">Тапсырмалар жоқ. Қиындық деңгейін таңдаңыз.</div>';
+        return;
+      }
       
       currentTaskIndex = (currentTaskIndex + 1) % tasks.length;
       document.getElementById("task-select").selectedIndex = currentTaskIndex;
@@ -731,16 +761,18 @@ sys.stdout.getvalue()
     }
 
     function resetScore() {
-      score = 0;
-      localStorage.setItem("score", "0");
-      for (const key in localStorage) {
-        if (key.startsWith("solved_")) {
-          localStorage.removeItem(key);
+      if (confirm('Барлық ұпайларды және прогресті қалпына келтіргіңіз келе ме?')) {
+        score = 0;
+        localStorage.setItem("score", "0");
+        for (const key in localStorage) {
+          if (key.startsWith("solved_")) {
+            localStorage.removeItem(key);
+          }
         }
+        document.getElementById("score").textContent = score;
+        document.getElementById("output").innerHTML = 
+          `<div class="success">Ұпайлар және прогресс қалпына келтірілді!</div>`;
       }
-      document.getElementById("score").textContent = score;
-      document.getElementById("output").innerHTML = 
-        `<div class="success">Ұпайлар және прогресс қалпына келтірілді!</div>`;
     }
 
     document.getElementById("code").addEventListener("paste", (e) => {
@@ -754,15 +786,14 @@ sys.stdout.getvalue()
 
     // Браузер режимінде автоматты түрде демо кіруді іске қосу
     if (window.location.search.includes('demo=true')) {
-      showAppContent({ 
-        id: 999999999, 
-        first_name: 'Сынақ',
-        username: 'demo_user'
-      });
+      setTimeout(() => {
+        showAppContent({ 
+          id: Date.now(), 
+          first_name: 'Сынақ',
+          username: 'demo_user'
+        });
+      }, 500);
     }
   </script>
 </body>
 </html>
-
-
-
