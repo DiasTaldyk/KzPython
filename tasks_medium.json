@@ -1,386 +1,52 @@
 [
   
   {
-    "title": "Қате бар код",
-    "description": "print('Сәлем) — қатені дұрыста.",
-    "code": "print('Сәлем')",
-    "expected": "Сәлем",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
+  "title": "Бос орынмен берілген сандарды үтір арқылы шығару",
+  "description": "Бір жолда бос орынмен бөлінген 7 5 8 9 12 сандары берілген. Оларды үтір және бос орын арқылы шығару керек. Кодта қате бар — дұрыста.",
+  "code": "s = input()\nprint(s)",
+  "expected": "7, 5, 8, 9, 12",
+  "required": [
+    "print", 
+    "join"
+  ],
+  "banned": []
+},
   {
-    "title": "Синтаксистік қате (жөнде)",
-    "description": "print(\"Бұл қате) кодындағы қатені жөнде.",
-    "code": "print(\"Бұл қате\")",
-    "expected": "Бұл қате",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
+  "title": "Бос орынмен берілген сандардың қосындысы",
+  "description": "Бір жолда бос орынмен бөлінген 7 5 8 9 12 бүтін сандары берілген. Олардың қосындысын тап. Есепті шығару үшін sum және map функцияларын қолдану міндетті. for циклі мен + операторын қолдануға болмайды.",
+  "code": "s = input()\nprint(s)",
+  "expected": "41",
+  "required": [
+    "print",
+    "sum",
+    "map"
+  ],
+  "banned": [
+    "for",
+    "+"
+  ]
+},
+
   {
-    "title": "Синтаксистік қате: артық :",
-    "description": "Кодтағы артық қос нүктені алып таста.",
-    "code": "if True:\n    print(\"Жарайсың\")",
-    "expected": "Жарайсың",
-    "required": [
-      "if",
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Синтаксистік қатені түзет",
-    "description": "Төмендегі кодта қатені тауып, оны жөнде. Код \"Сәлем әлем!\" дегенді шығару керек.",
-    "input_required": false,
-    "code_template": "print(\"Сәлем әлем!)",
-    "expected_output": "Сәлем әлем!",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Жолды түзету",
-    "description": "Келесі код қателі, оны түзетіп, 'Қош келдің!' шығарыңыз.",
-    "input_required": false,
-    "code_template": "print(Қош келдің!)",
-    "expected_output": "Қош келдің!",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Жолды шығару",
-    "description": "'Сәлем, әлем!' деген жазуды шығарыңыз.",
-    "input_required": false,
-    "code_template": "# print() функциясын қолдан",
-    "expected_output": "Сәлем, әлем!",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Қате синтаксис",
-    "description": "Келесі жолда қате бар. Түзетіңіз: print('Сәлем)",
-    "input_required": false,
-    "code_template": "# дұрысы: print('Сәлем')",
-    "expected_output": "Сәлем",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Жол ұзындығы",
-    "description": "'Қазақстан' сөзінің ұзындығын анықтаңыз.",
-    "input_required": false,
-    "code_template": "# print(len('Қазақстан'))",
-    "expected_output": "9",
-    "required": [
-      "len"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Айнымалы арқылы шығару",
-    "description": "Айнымалы city = 'Алматы'. Қаланы шығарыңыз.",
-    "code": "city = 'Алматы'\nprint(city)",
-    "expected": "Алматы",
-    "required": [
-      "=",
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Қате синтаксис (print)",
-    "description": "Төмендегі кодта синтаксистік қате бар. Оны түзет:\nprint('Сәлем, әлем!'",
-    "code": "print('Сәлем, әлем!')",
-    "expected": "Сәлем, әлем!",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "3 жолды шығару",
-    "description": "1, 4, 9 сандарын әр жолға шығару.",
-    "code": "print(1)\nprint(4)\nprint(9)",
-    "expected": "1\n4\n9",
-    "required": [
-      "print"
-    ],
-    "banned": [
-      "for"
-    ]
-  },
-  {
-    "title": "Қате бар кодты түзету",
-    "description": "Төмендегі кодта қате бар. Түзет:\nprint('Сәлем)",
-    "code": "print('Сәлем')",
-    "expected": "Сәлем",
-    "required": [
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Қосындыны шығару",
-    "description": "Пайдаланушыдан екі сан сұрап, олардың қосындысын шығар.",
-    "input_required": true,
-    "code_template": "# Мысалы: a = int(input())\n# b = int(input())\n# print(a + b)",
-    "expected_output": "13",
-    "required": [
-      "+"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Көбейту нәтижесін табу",
-    "description": "Пайдаланушы екі сан енгізеді, олардың көбейтіндісін шығарыңыз.",
-    "input_required": true,
-    "code_template": "# Мысалы: x = int(input())\n# y = int(input())\n# print(x * y)",
-    "expected_output": "40",
-    "required": [
-      "*"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Санның квадраты",
-    "description": "Пайдаланушы бір сан енгізеді, оның квадратын шығарыңыз.",
-    "input_required": true,
-    "code_template": "# x = int(input())\n# print(x ** 2)",
-    "expected_output": "49",
-    "required": [
-      "**"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Сандарды енгізіп қосу",
-    "description": "Пайдаланушыдан екі сан енгізіп, олардың қосындысын шығарыңыз.",
-    "code": "a = int(input())\nb = int(input())\nprint(a + b)",
-    "expected": "13",
-    "required": [
-      "input",
-      "+",
-      "int"
-    ],
-    "banned": [
-      "-",
-      "*",
-      "/"
-    ]
-  },
-  {
-    "title": "Жол енгізу және шығару",
-    "description": "Пайдаланушы есімін енгізіп, оны шығарыңыз.",
-    "code": "name = input()\nprint(name)",
-    "expected": "Айгүл",
-    "required": [
-      "input",
-      "print"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Секундтарды минутқа айналдыру",
-    "description": "120 секунд неше минут екенін шығар.",
-    "code": "seconds = 120\nprint(seconds // 60)",
-    "expected": "2",
-    "required": [
-      "//"
-    ],
-    "banned": [
-      "/"
-    ]
-  },
-  {
-    "title": "Граммды килограммға айналдыру",
-    "description": "1500 грамм — неше кг екенін шығар.",
-    "code": "grams = 1500\nprint(grams / 1000)",
-    "expected": "1.5",
-    "required": [
-      "/"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Секундты сағатқа айналдыру",
-    "description": "7200 секунд — неше сағат екенін есептеңіз.",
-    "input_required": false,
-    "code_template": "# print(7200 // 3600)",
-    "expected_output": "2",
-    "required": [
-      "//"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Сантиметрді метрге айналдыру",
-    "description": "150 см — неше метр екенін табыңыз.",
-    "input_required": false,
-    "code_template": "# print(150 / 100)",
-    "expected_output": "1.5",
-    "required": [
-      "/"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Секундты сағатқа ауыстыру",
-    "description": "3600 секунд — неше сағат? Нәтижені шығар.",
-    "code": "print(3600 // 3600)",
-    "expected": "1",
-    "required": [
-      "//"
-    ],
-    "banned": [
-      "/"
-    ]
-  },
-  {
-    "title": "Метры километрге",
-    "description": "1500 метр — неше километр? (бүтін бөлігі).",
-    "code": "print(1500 // 1000)",
-    "expected": "1",
-    "required": [
-      "//"
-    ],
-    "banned": [
-      "/"
-    ]
-  },
+  "title": "1-ден 15-ке дейінгі сандардың қосындысы",
+  "description": "n бүтін саны берілген, n=15. 1-ден 15-ке дейінгі барлық сандардың қосындысын тап. Есепті шығару үшін for циклын қолдану міндетті. Дайын формулаларды және дайын функцияларды қолдануға болмайды.",
+  "code": "n = int(input())\nprint(n)",
+  "expected": "120",
+  "required": [
+    "print",
+    "for"
+  ],
+  "banned": [
+    "while",
+    "sum",
+    "*",
+    "/"
+  ]
+},
+
   {
     "title": "Бүтін бөлу",
-    "description": "17 санын 4-ке бөліп, бүтін бөлігін шығарыңыз.",
-    "code": "print(17 // 4)",
-    "expected": "4",
-    "required": [
-      "//"
-    ],
-    "banned": [
-      "/"
-    ]
-  },
-  {
-    "title": "Қалдық табу",
-    "description": "7 санының 3-ке бөлгендегі қалдығын табыңыз.",
-    "code": "print(7 % 3)",
-    "expected": "1",
-    "required": [
-      "%"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Сандарды салыстыру",
-    "description": "5 > 3 екенін тексеріп, нәтижені шығарыңыз.",
-    "input_required": false,
-    "code_template": "# print(5 > 3)",
-    "expected_output": "True",
-    "required": [
-      ">"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Кіші немесе тең",
-    "description": "5 <= 5 екенін тексеріп, нәтижесін шығарыңыз.",
-    "input_required": false,
-    "code_template": "# print(5 <= 5)",
-    "expected_output": "True",
-    "required": [
-      "<="
-    ],
-    "banned": []
-  },
-  {
-    "title": "Сөзді үш рет шығару",
-    "description": "\"Python\" сөзін 3 рет қатарынан шығарыңыз.",
-    "input_required": false,
-    "code_template": "# Мұнда кодыңызды жазыңыз",
-    "expected_output": "PythonPythonPython",
-    "required": [
-      "*"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Секундты минутқа айналдыру",
-    "description": "Пайдаланушыдан секунд санын алып, оны минутқа айналдыр.",
-    "input_required": true,
-    "code_template": "# Мысалы: 120 енгізсе → 2.0",
-    "expected_output": "2.0",
-    "required": [
-      "/"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Сағатты секундқа айналдыру",
-    "description": "Пайдаланушыдан сағат санын алып, оны секундқа айналдыр.",
-    "input_required": true,
-    "code_template": "# Мысалы: 1 енгізсе → 3600",
-    "expected_output": "3600",
-    "required": [
-      "*"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Метрын сантиметрге айналдыру",
-    "description": "Пайдаланушыдан метр санын алып, оны сантиметрге айналдыр.",
-    "input_required": true,
-    "code_template": "# 1 метр = 100 см",
-    "expected_output": "300",
-    "required": [
-      "*"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Килограмды грамға айналдыру",
-    "description": "Пайдаланушыдан килограмм алып, оны грамға айналдыр.",
-    "input_required": true,
-    "code_template": "# 1 кг = 1000 г",
-    "expected_output": "5000",
-    "required": [
-      "*"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Тоннаны килограммға айналдыру",
-    "description": "Пайдаланушыдан тонна алып, оны килограммға айналдыр.",
-    "input_required": true,
-    "code_template": "# 1 тонна = 1000 кг",
-    "expected_output": "3000",
-    "required": [
-      "*"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Екі мәнді біріктір",
-    "description": "Аты мен тегі бөлек айнымалыларда берілген. Оларды толық ат ретінде біріктір.",
-    "input_required": false,
-    "code_template": "first = \"Алия\"\nlast = \"Нұрбек\"\n# Мұнда толық атты шығарыңыз",
-    "expected_output": "Алия Нұрбек",
-    "required": [
-      "+"
-    ],
-    "banned": []
-  },
-  {
-    "title": "Бүтін бөлу",
-    "description": "10 санын 3-ке бөлгендегі бүтін бөліндісін шығарыңыз.",
+    "description": "10 санын 3-ке бөлгендегі бүтін бөлігін шығарыңыз.",
     "input_required": false,
     "code_template": "# // операторын қолдан",
     "expected_output": "3",
