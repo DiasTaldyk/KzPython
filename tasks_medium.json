@@ -49,7 +49,7 @@
     "description": "10 санын 3-ке бөлгендегі бүтін бөлігін шығарыңыз.",
     "input_required": false,
     "code_template": "# // операторын қолдан",
-    "expected_output": "3",
+    "expected": "3",
     "required": [
       "//"
     ],
@@ -60,7 +60,7 @@
     "description": "15 санын 4-ке бөлгендегі қалдықты шығарыңыз.",
     "input_required": false,
     "code_template": "# % операторын қолдан",
-    "expected_output": "3",
+    "expected": "3",
     "required": [
       "%"
     ],
@@ -71,7 +71,7 @@
     "description": "a = 5, b = 7 болғанда, мәндерін ауыстырыңыз.",
     "input_required": false,
     "code_template": "# a мен b мәндерін ауыстырыңыз",
-    "expected_output": "a=7 b=5",
+    "expected": "7 5",
     "required": [
       "a",
       "b"
